@@ -9,32 +9,39 @@ import { Signin } from "./pages/Signin.jsx";
 import { SignUp } from "./pages/SignUp.jsx";
 import { Dashboard } from "./pages/Dashboard.jsx";
 import { Projects } from "./pages/Projects.jsx";
+import { Layout } from "./components/Layout.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/about",
-    element: <About />,
-  },
-  {
-    path: "/sign-in",
-    element: <Signin />,
-  },
-  {
-    path: "/sign-up",
-    element: <SignUp />,
-  },
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/sign-in",
+        element: <Signin />,
+      },
+      {
+        path: "/sign-up",
+        element: <SignUp />,
+      },
 
-  {
-    path: "/dashboard",
-    element: <Dashboard />,
-  },
-  {
-    path: "/projects",
-    element: <Projects />,
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "/projects",
+        element: <Projects />,
+      },
+    ],
   },
 ]);
 
