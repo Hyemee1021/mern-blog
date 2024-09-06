@@ -44,7 +44,7 @@ export const Header = () => {
         </div>
         <Link
           to="/sign-in"
-          className="flex justify-center items-center  border w-12 h-12  rounded-lg lg:hidden   bg-gradient-to-r from-pink-500 via-indigo-400 to-blue-500 text-white font-semibold text-sm"
+          className=" font-semibold text-sm text-black flex justify-center items-center  border w-12 h-12  rounded-lg lg:hidden   hover:bg-gradient-to-r from-pink-500 via-indigo-400 to-blue-500 hover:text-white "
         >
           <button className="flex justify-center items-center ">Signin</button>
         </Link>
