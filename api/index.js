@@ -5,34 +5,30 @@ import dotenv from "dotenv";
 // router
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
+import { errorHandler } from "./middleware/error.js";
 
+// main Express setup
 dotenv.config();
+
+const app = express();
 
 mongoose
   .connect(process.env.MONGODB)
   .then(() => console.log("MongoDB is connected"))
   .catch((error) => console.log(error.mesage));
 
-const app = express();
-
-// this will allow json format to backend
+// Middleware to parse JSON
 app.use(express.json());
-app.listen(3000, () => {
-  console.log("Server is running on port 3000!!");
-});
 
-// making api endpoint
+// making api routes
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 
-//error handling
-app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || "Internal Sever Error";
+// Error handling middleware should be the last middleware
+// after all of routes and other middleware to catch errors for them
+//integrating error handling middleware
+app.use(errorHandler);
 
-  res.status(statusCode).json({
-    success: false,
-    statusCode,
-    message,
-  });
+app.listen(3000, () => {
+  console.log("Server is running on port 3000!!");
 });

@@ -16,7 +16,7 @@ export const Header = () => {
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className="px-2 py-1  rounded-full text-white   drop-shadow bg-gradient-to-r from-pink-500 via-indigo-400 to-blue-500">
+        <span className="px-3 py-1  rounded-full text-white   drop-shadow bg-gradient-to-r from-pink-500 via-yello-500 to-orange-500">
           HyeMee
         </span>
         's Blog
