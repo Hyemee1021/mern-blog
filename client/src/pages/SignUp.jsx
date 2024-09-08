@@ -1,8 +1,61 @@
-import { Button, Label, TextInput } from "flowbite-react";
-import React from "react";
-import { Link } from "react-router-dom";
+import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const navigate = useNavigate();
+  const handleOnChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value.trim(),
+    });
+  };
+  //2:20
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.username || !formData.email || !formData.password) {
+      return setErrorMessage("Please fill out all the fields.");
+    }
+    try {
+      setLoading(true);
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Clear form data and error messages upon successful submission
+        setFormData({});
+        setErrorMessage(null);
+        // Optionally redirect or show a success message
+        navigate("/signin");
+      } else {
+        // Handle server-side errors
+        setErrorMessage(data.message || "An error occurred. Please try again.");
+      }
+      if (data.success === false) {
+        return setErrorMessage(data.message);
+      }
+
+      setLoading(false);
+      return data;
+    } catch (error) {
+      setLoading(false);
+      setErrorMessage(error.message);
+    }
+  };
+
   return (
     <div className="min-h-screen mt-20 border ">
       <div className="flex p-3 max-w-3xl md:mx-auto  gap-7 flex-col md:flex-row md:items-center border mx-5">
@@ -25,25 +78,50 @@ export const SignUp = () => {
         </div>
         {/* right */}
         <div className="flex-1">
-          <form className="flex flex-col gap-5">
+          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
             <div>
               <Label value="Your username" />
-              <TextInput type="text" placeholder="Username" id="username" />
+              <TextInput
+                type="text"
+                onChange={handleOnChange}
+                placeholder="Username"
+                id="username"
+                value={formData.username || ""}
+              />
             </div>
             <div>
               <Label value="Your email" />
               <TextInput
+                onChange={handleOnChange}
                 type="email"
                 placeholder="name@company.com"
                 id="email"
+                value={formData.email || ""}
               />
             </div>
             <div>
               <Label value="Your password" />
-              <TextInput type="password" placeholder="Password" id="password" />
+              <TextInput
+                type="password"
+                onChange={handleOnChange}
+                placeholder="Password"
+                id="password"
+                value={formData.password || ""}
+              />
             </div>
-            <Button type="submit" gradientDuoTone="pinkToOrange">
-              Sign Up
+            <Button
+              type="submit"
+              gradientDuoTone="pinkToOrange"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Spinner size="sm" />
+                  <span className="pl-3">Loading...</span>
+                </>
+              ) : (
+                "Sign Up"
+              )}
             </Button>
           </form>
 
@@ -53,6 +131,11 @@ export const SignUp = () => {
               here
             </Link>
           </div>
+          {errorMessage && (
+            <Alert className="mt-5" color="failure">
+              {errorMessage}
+            </Alert>
+          )}
         </div>
       </div>
     </div>

@@ -1,6 +1,9 @@
 import express from "express";
 import mongoose, { mongo } from "mongoose";
 import dotenv from "dotenv";
+import path from "path";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
 // router
 import userRoutes from "./routes/user.route.js";
@@ -12,14 +15,21 @@ dotenv.config();
 
 const app = express();
 
+const corsOptions = {
+  origin: true,
+};
+
 mongoose
   .connect(process.env.MONGODB)
   .then(() => console.log("MongoDB is connected"))
-  .catch((error) => console.log(error.mesage));
+  .catch((error) => console.log(error.message));
+
+const __dirname = path.resolve();
 
 // Middleware to parse JSON
 app.use(express.json());
-
+app.use(cookieParser());
+app.use(cors(corsOptions));
 // making api routes
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
