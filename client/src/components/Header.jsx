@@ -12,6 +12,7 @@ export const Header = () => {
 
   return (
     <Navbar className="border-b-2">
+      {/* logo */}
       <Link
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
