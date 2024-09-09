@@ -1,5 +1,5 @@
 import express from "express";
-import { signup } from "../controllers/auth.controller.js";
+import { signup, signin } from "../controllers/auth.controller.js";
 import { validateSignup } from "../middleware/validateSignup.js";
 
 const router = express.Router();
@@ -10,5 +10,6 @@ const router = express.Router();
 //validateSignup middleware before signup route handles data for further processing
 
 router.post("/signup", validateSignup, signup);
-//I will use it in index.js
-export default router;
+router.post("/signin", signin);
+
+export default router; //I will use it in index.js
