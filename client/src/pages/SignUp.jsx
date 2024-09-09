@@ -1,7 +1,7 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { signupService } from "../../../api/services/signupService";
 export const SignUp = () => {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -24,32 +24,22 @@ export const SignUp = () => {
     }
     try {
       setLoading(true);
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const data = await signupService(formData);
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (data.success === false) {
+        return setErrorMessage(data.message);
+      } else {
+        // succecss=== true
         // Clear form data and error messages upon successful submission
         setFormData({});
         setErrorMessage(null);
+
+        // Ensure loading state is turned off before navigation
+        setLoading(false);
+
         // Optionally redirect or show a success message
         navigate("/signin");
-      } else {
-        // Handle server-side errors
-        setErrorMessage(data.message || "An error occurred. Please try again.");
       }
-      if (data.success === false) {
-        return setErrorMessage(data.message);
-      }
-
-      setLoading(false);
-      return data;
     } catch (error) {
       setLoading(false);
       setErrorMessage(error.message);
