@@ -62,8 +62,7 @@ export const SignUp = () => {
           </Link>
           <p className="text-sm mt-5">
             {" "}
-            This is a demo project. You can sign up or use "a@a.com" ,"1234" to
-            explore my project.
+            This is a demo project. You can sign up with your email or Google.
           </p>
         </div>
         {/* right */}
