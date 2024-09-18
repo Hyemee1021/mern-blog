@@ -26,7 +26,6 @@ export const signup = async (req, res, next) => {
   }
 };
 
-//2:45
 export const signin = async (req, res, next) => {
   //I got data from front and I handle it here as obj form
   const { email, password } = req.body;
@@ -39,7 +38,7 @@ export const signin = async (req, res, next) => {
     const validUser = await User.findOne({ email });
 
     if (!validUser) {
-      return next(errorHandler(404, "USer not found"));
+      return next(errorHandler(404, "User not found"));
     }
 
     const validPassword = bcryptjs.compareSync(password, validUser.password);
@@ -61,7 +60,7 @@ export const signin = async (req, res, next) => {
     res
       .status(200)
       .cookie("access_token", token, { httpOnly: true })
-      .json(rest);
+      .json(rest); //send user infor except for password
   } catch (error) {
     next(error);
   }
