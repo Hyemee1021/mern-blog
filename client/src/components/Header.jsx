@@ -17,7 +17,7 @@ export const Header = () => {
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className="px-3 py-1  rounded-full text-white   drop-shadow bg-gradient-to-r from-pink-500 via-yello-500 to-orange-500">
+        <span className="px-3 py-1  rounded-full text-white   drop-shadow bg-gradient-to-r from-orange-500 via-pink-500 to-red-600">
           HyeMee
         </span>
         's Blog
@@ -44,10 +44,16 @@ export const Header = () => {
           </button>
         </div>
         <Link
-          to="/sign-in"
+          to="/signin"
           className=" font-semibold text-sm text-black flex justify-center items-center  border w-12 h-12  rounded-lg lg:hidden   hover:bg-gradient-to-r from-pink-500 via-indigo-400 to-blue-500 hover:text-white "
         >
-          <button className="flex justify-center items-center ">Signin</button>
+          <button
+            gradientDuoTone="purpleToBlue"
+            outline
+            className="flex justify-center items-center"
+          >
+            Signin
+          </button>
         </Link>
       </div>
       <Navbar.Toggle />
@@ -62,8 +68,8 @@ export const Header = () => {
         <Navbar.Link active={path === "/projects"} as={"div"}>
           <Link to="/projects">Projects</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/sign-up"} as={"div"}>
-          <Link to="/sign-up">Signup</Link>
+        <Navbar.Link active={path === "/signup"} as={"div"}>
+          <Link to="/signup">Signup</Link>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>

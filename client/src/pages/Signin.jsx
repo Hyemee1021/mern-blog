@@ -2,13 +2,19 @@ import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+import { useDispatch, useSelector } from "react-redux";
 import { signinService } from "../../../api/services/signinService";
+
+import {
+  signInFailure,
+  signInStart,
+  signInSuccess,
+} from "../redux/user/userSlice";
 export const Signin = () => {
   const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
 
-  const [errorMessage, setErrorMessage] = useState(null);
-
+  const dispatch = useDispatch();
+  const { loading, error: errorMessage } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   const handleOnChange = (e) => {
@@ -22,29 +28,20 @@ export const Signin = () => {
     e.preventDefault();
 
     if (!formData.email || !formData.password) {
-      return setErrorMessage("Please fill out all the fields.");
+      return dispatch(signInFailure("Please fill all the fileds"));
     }
     try {
-      setLoading(true);
+      dispatch(signInStart());
       const data = await signinService(formData);
 
       if (data.success === false) {
-        return setErrorMessage(data.message);
+        dispatch(signInFailure(data.message));
       } else {
-        // succecss=== true
-        // Clear form data and error messages upon successful submission
-        setFormData({});
-        setErrorMessage(null);
-
-        // Ensure loading state is turned off before navigation
-        setLoading(false);
-
-        // Optionally redirect or show a success message
+        dispatch(signInSuccess(data));
         navigate("/");
       }
     } catch (error) {
-      setLoading(false);
-      setErrorMessage(error.message);
+      dispatch(signInFailure(error.message));
     }
   };
 
@@ -109,8 +106,8 @@ export const Signin = () => {
           </form>
 
           <div className="flex gap-2 text-sm mt-2">
-            <span>Have an account?</span>
-            <Link to="/signin" className=" font-semibold text-blue-600">
+            <span>Don't have an account?</span>
+            <Link to="/signup" className=" font-semibold text-blue-600">
               here
             </Link>
           </div>
