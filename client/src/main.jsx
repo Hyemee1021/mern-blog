@@ -10,9 +10,9 @@ import { SignUp } from "./pages/SignUp.jsx";
 import { Dashboard } from "./pages/Dashboard.jsx";
 import { Projects } from "./pages/Projects.jsx";
 import { Layout } from "./components/Layout.jsx";
-import { store } from "./redux/store.js";
+import { store, persistor } from "./redux/store.js";
 import { Provider } from "react-redux";
-
+import { PersistGate } from "redux-persist/integration/react";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -49,8 +49,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <PersistGate persistor={persistor}>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </PersistGate>
   </React.StrictMode>
 );
