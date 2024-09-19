@@ -1,15 +1,28 @@
-import { Navbar, TextInput } from "flowbite-react";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  DropdownDivider,
+  DropdownHeader,
+  DropdownItem,
+  Navbar,
+  TextInput,
+} from "flowbite-react";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 // icons
-import { IoSearchOutline } from "react-icons/io5";
+import { AiOutlineSearch } from "react-icons/ai";
+
 import { FaMoon } from "react-icons/fa";
 export const Header = () => {
   // getting path name from url
   const location = useLocation();
   const path = location.pathname;
 
+  const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser);
   return (
     <Navbar className="border-b-2">
       {/* logo */}
@@ -27,36 +40,48 @@ export const Header = () => {
           type="text"
           placeholder="Search .."
           className="hidden lg:inline"
-          rightIcon={IoSearchOutline}
+          rightIcon={AiOutlineSearch}
         />
       </form>
-      <div className="flex justify-center items-center  border w-12 h-12  rounded-lg lg:hidden hover:bg-gray-200">
-        <button className="flex justify-center items-center ">
-          <IoSearchOutline className="text-gray-500 " size={20} />
-        </button>
-      </div>
+      <Button className="w-12 h-10 lg:hidden" color="gray" pill>
+        <AiOutlineSearch />
+      </Button>
+
       {/* theme and signin button when its small size comes before when its on large screen it comes at
       the end */}
       <div className="flex gap-3 md:order-2">
-        <div className="flex justify-center items-center  border w-12 h-12  rounded-lg  hover:bg-gray-200">
-          <button className="flex justify-center items-center ">
-            <FaMoon size={18} />
-          </button>
-        </div>
-        <Link
-          to="/signin"
-          className=" font-semibold text-sm text-black flex justify-center items-center  border w-12 h-12  rounded-lg lg:hidden   hover:bg-gradient-to-r from-pink-500 via-indigo-400 to-blue-500 hover:text-white "
-        >
-          <button
-            gradientDuoTone="purpleToBlue"
-            outline
-            className="flex justify-center items-center"
+        {currentUser ? (
+          <Dropdown
+            arrowIcon={false}
+            inline
+            label={
+              <Avatar alt="user" img={currentUser.profilePicture} rounded />
+            }
           >
-            Signin
-          </button>
-        </Link>
+            <DropdownHeader>
+              <span className="block text-sm">@{currentUser.username}</span>
+              <span className="block text-sm font-medium truncate">
+                {currentUser.email}
+              </span>
+            </DropdownHeader>
+            <Link to={"/dashboard?tab=profile"}>
+              <DropdownItem>Profile</DropdownItem>
+            </Link>
+            <DropdownDivider />
+
+            <DropdownItem>Sign Out</DropdownItem>
+          </Dropdown>
+        ) : (
+          <Link to="/sign-in">
+            <Button gradientDuoTone="purpleToBlue" outline>
+              Sign In
+            </Button>
+          </Link>
+        )}
+
+        <Navbar.Toggle />
       </div>
-      <Navbar.Toggle />
+
       {/*  menu  */}
       <Navbar.Collapse>
         <Navbar.Link active={path === "/"} as={"div"}>
