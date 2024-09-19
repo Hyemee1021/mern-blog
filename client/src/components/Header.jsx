@@ -11,18 +11,19 @@ import {
 import React from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleTheme } from "../redux/theme/themeSlice";
 // icons
 import { AiOutlineSearch } from "react-icons/ai";
-
-import { FaMoon } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 export const Header = () => {
   // getting path name from url
   const location = useLocation();
   const path = location.pathname;
-
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser);
+  const { theme } = useSelector((state) => state.theme);
+
   return (
     <Navbar className="border-b-2">
       {/* logo */}
@@ -50,6 +51,14 @@ export const Header = () => {
       {/* theme and signin button when its small size comes before when its on large screen it comes at
       the end */}
       <div className="flex gap-3 md:order-2">
+        <Button
+          className="w-12 h-10 hidden sm:inline"
+          color="gray"
+          pill
+          onClick={() => dispatch(toggleTheme())}
+        >
+          {theme === "light" ? <FaSun /> : <FaMoon />}
+        </Button>
         {currentUser ? (
           <Dropdown
             arrowIcon={false}

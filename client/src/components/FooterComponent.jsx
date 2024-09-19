@@ -57,7 +57,7 @@ const FooterComponent = () => {
         <div className="w-full sm:flex sm:items-center sm:justify-between">
           <Footer.Copyright
             href="#"
-            by="Sahand's blog"
+            by="Hyemee's blog"
             year={new Date().getFullYear()}
           />
         </div>
