@@ -47,8 +47,8 @@ export const Signin = () => {
   };
 
   return (
-    <div className="min-h-screen mt-20 border ">
-      <div className="flex p-3 max-w-3xl md:mx-auto  gap-7 flex-col md:flex-row md:items-center border mx-5">
+    <div className="min-h-screen mt-20  ">
+      <div className="flex p-3 max-w-3xl md:mx-auto  gap-7 flex-col md:flex-row md:items-center  mx-5">
         {/* left */}
         <div className="flex-1  flex-col flex items-center mt-5 md:mt-0">
           <Link

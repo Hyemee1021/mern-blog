@@ -48,8 +48,8 @@ export const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen mt-20 border ">
-      <div className="flex p-3 max-w-3xl md:mx-auto  gap-7 flex-col md:flex-row md:items-center border mx-5">
+    <div className="min-h-screen mt-20 ">
+      <div className="flex p-3 max-w-3xl md:mx-auto  gap-7 flex-col md:flex-row md:items-center  mx-5">
         {/* left */}
         <div className="flex-1 ">
           <Link

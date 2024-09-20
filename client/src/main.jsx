@@ -14,6 +14,7 @@ import { store, persistor } from "./redux/store.js";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import ThemeProvider from "./components/ThemeProvider.jsx";
+import PrivateRouter from "./components/PrivateRouter.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,10 +36,14 @@ const router = createBrowserRouter([
         path: "/signup",
         element: <SignUp />,
       },
-
+      // Protect the Dashboard route with PrivateRoute
       {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: (
+          <PrivateRouter>
+            <Dashboard />
+          </PrivateRouter>
+        ),
       },
       {
         path: "/projects",

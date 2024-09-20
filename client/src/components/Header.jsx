@@ -76,6 +76,10 @@ export const Header = () => {
             <Link to={"/dashboard?tab=profile"}>
               <DropdownItem>Profile</DropdownItem>
             </Link>
+            <Link to={"/dashboard"}>
+              <DropdownItem>Dashboard</DropdownItem>
+            </Link>
+
             <DropdownDivider />
 
             <DropdownItem>Sign Out</DropdownItem>
