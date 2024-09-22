@@ -85,7 +85,7 @@ export const Header = () => {
             <DropdownItem>Sign Out</DropdownItem>
           </Dropdown>
         ) : (
-          <Link to="/sign-in">
+          <Link to="/signin">
             <Button gradientDuoTone="purpleToBlue" outline>
               Sign In
             </Button>
