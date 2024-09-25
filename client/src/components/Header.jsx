@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Avatar, Dropdown, Navbar, Button } from "flowbite-react";
+import { Avatar, Dropdown, Navbar, Button, TextInput } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // icon
 import { AiOutlineSearch } from "react-icons/ai";
+import { CiMenuKebab } from "react-icons/ci";
 import {
   FaIcons,
   FaMoon,
@@ -20,19 +21,39 @@ export const Header = () => {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme.theme);
   const currentUser = useSelector((state) => state.user.currentUser);
-  console.log(currentUser);
-  return (
-    <Navbar fluid rounded>
-      <Navbar.Brand as={Link} to="/">
-        <span className="px-3 py-1  rounded-full text-white   drop-shadow bg-gradient-to-r from-orange-500 via-yellow-400 to-green-500">
-          HyeMee
-        </span>
-        's Blog
-      </Navbar.Brand>
 
-      {/* profile icon */}
-      {currentUser && (
-        <div className="flex order-3">
+  const [open, setOpen] = useState(true);
+  console.log(open);
+  const openToggle = () => {
+    setOpen(!open);
+  };
+  return (
+    <div className="shadow-md">
+      <Navbar fluid rounded className="w-11/12 md:w-4/5  mx-auto ">
+        <Navbar.Brand as={Link} to="/">
+          <span className="px-3 py-1  rounded-full text-white   drop-shadow bg-gradient-to-r from-orange-500 via-yellow-400 to-green-500">
+            HyeMee
+          </span>
+          's Blog
+        </Navbar.Brand>
+
+        <form class="max-w-sm mx-auto  md:flex hidden ">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="hidden md:block rounded-md border-slate-400"
+          />
+          <Button>
+            <AiOutlineSearch size={15} />
+          </Button>
+        </form>
+
+        <Button className="w-10 h-10 lg:hidden" color="gray" pill>
+          <AiOutlineSearch />
+        </Button>
+
+        {/* profile icon */}
+        {currentUser && (
           <Dropdown
             arrowIcon={false}
             inline
@@ -56,12 +77,10 @@ export const Header = () => {
 
             <Dropdown.Item>Sign out</Dropdown.Item>
           </Dropdown>
-        </div>
-      )}
+        )}
 
-      <div className="flex md:order-2 gap-3">
         <Button onClick={() => dispatch(toggleTheme())}>
-          {theme === "light" ? <FaMoon /> : <FaSun />}
+          {theme === "light" ? <FaMoon size={10} /> : <FaSun size={10} />}
         </Button>
 
         {!currentUser && (
@@ -69,16 +88,28 @@ export const Header = () => {
             <Button> Sign in</Button>
           </Link>
         )}
+        <CiMenuKebab
+          size={22}
+          className="md:hidden hover:bg-slate-200  rounded-full "
+          onClick={openToggle}
+        />
 
-        <Navbar.Toggle />
-      </div>
-      <Navbar.Collapse>
-        <Navbar.Link href="/" active>
-          Home
-        </Navbar.Link>
-        <Navbar.Link href="/about">About</Navbar.Link>
-        <Navbar.Link href="/projects">Projects</Navbar.Link>
-      </Navbar.Collapse>
-    </Navbar>
+        <ul
+          className={`${
+            open ? "block" : "hidden"
+          } w-full flex flex-col gap-3 md:flex md:flex-row md:w-64 md:justify-around`}
+        >
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+          <li>
+            <Link to="/">Projects</Link>
+          </li>
+        </ul>
+      </Navbar>
+    </div>
   );
 };
