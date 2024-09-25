@@ -1,114 +1,83 @@
-import {
-  Avatar,
-  Button,
-  Dropdown,
-  DropdownDivider,
-  DropdownHeader,
-  DropdownItem,
-  Navbar,
-  TextInput,
-} from "flowbite-react";
 import React from "react";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { toggleTheme } from "../redux/theme/themeSlice";
-// icons
-import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon, FaSun } from "react-icons/fa";
-export const Header = () => {
-  // getting path name from url
-  const location = useLocation();
-  const path = location.pathname;
-  const dispatch = useDispatch();
-  const { currentUser } = useSelector((state) => state.user);
-  const { theme } = useSelector((state) => state.theme);
 
+import { Avatar, Dropdown, Navbar, Button } from "flowbite-react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+// icon
+import { AiOutlineSearch } from "react-icons/ai";
+import {
+  FaIcons,
+  FaMoon,
+  FaRegUserCircle,
+  FaSun,
+  FaUser,
+  FaUserAlt,
+  FaUserCircle,
+} from "react-icons/fa";
+import { toggleTheme } from "../redux/theme/themeSlice";
+
+export const Header = () => {
+  const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.theme);
+  const currentUser = useSelector((state) => state.user.currentUser);
+  console.log(currentUser);
   return (
-    <Navbar className="border-b-2">
-      {/* logo */}
-      <Link
-        to="/"
-        className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
-      >
-        <span className="px-3 py-1  rounded-full text-white   drop-shadow bg-gradient-to-r from-orange-500 via-pink-500 to-red-600">
+    <Navbar fluid rounded>
+      <Navbar.Brand as={Link} to="/">
+        <span className="px-3 py-1  rounded-full text-white   drop-shadow bg-gradient-to-r from-orange-500 via-yellow-400 to-green-500">
           HyeMee
         </span>
         's Blog
-      </Link>
-      <form action="">
-        <TextInput
-          type="text"
-          placeholder="Search .."
-          className="hidden lg:inline"
-          rightIcon={AiOutlineSearch}
-        />
-      </form>
-      <Button className="w-12 h-10 lg:hidden" color="gray" pill>
-        <AiOutlineSearch />
-      </Button>
+      </Navbar.Brand>
 
-      {/* theme and signin button when its small size comes before when its on large screen it comes at
-      the end */}
-      <div className="flex gap-3 md:order-2">
-        <Button
-          className="w-12 h-10 hidden sm:inline"
-          color="gray"
-          pill
-          onClick={() => dispatch(toggleTheme())}
-        >
-          {theme === "light" ? <FaSun /> : <FaMoon />}
-        </Button>
-        {currentUser ? (
+      {/* profile icon */}
+      {currentUser && (
+        <div className="flex order-3">
           <Dropdown
             arrowIcon={false}
             inline
             label={
-              <Avatar alt="user" img={currentUser.profilePicture} rounded />
+              <Avatar
+                alt="User settings"
+                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                rounded
+              />
             }
           >
-            <DropdownHeader>
-              <span className="block text-sm">@{currentUser.username}</span>
-              <span className="block text-sm font-medium truncate">
+            <Dropdown.Header>
+              <span className="block text-sm">{currentUser.username}</span>
+              <span className="block truncate text-sm font-medium">
                 {currentUser.email}
               </span>
-            </DropdownHeader>
-            <Link to={"/dashboard?tab=profile"}>
-              <DropdownItem>Profile</DropdownItem>
-            </Link>
-            <Link to={"/dashboard"}>
-              <DropdownItem>Dashboard</DropdownItem>
-            </Link>
+            </Dropdown.Header>
+            <Dropdown.Divider />
+            <Dropdown.Item href="/dashboard">Dashboard</Dropdown.Item>
+            <Dropdown.Item href="/profile">Profile</Dropdown.Item>
 
-            <DropdownDivider />
-
-            <DropdownItem>Sign Out</DropdownItem>
+            <Dropdown.Item>Sign out</Dropdown.Item>
           </Dropdown>
-        ) : (
-          <Link to="/signin">
-            <Button gradientDuoTone="purpleToBlue" outline>
-              Sign In
-            </Button>
+        </div>
+      )}
+
+      <div className="flex md:order-2 gap-3">
+        <Button onClick={() => dispatch(toggleTheme())}>
+          {theme === "light" ? <FaMoon /> : <FaSun />}
+        </Button>
+
+        {!currentUser && (
+          <Link to="/signin" className="hidden">
+            <Button> Sign in</Button>
           </Link>
         )}
 
         <Navbar.Toggle />
       </div>
-
-      {/*  menu  */}
       <Navbar.Collapse>
-        <Navbar.Link active={path === "/"} as={"div"}>
-          <Link to="/">Home</Link>
+        <Navbar.Link href="/" active>
+          Home
         </Navbar.Link>
-        <Navbar.Link active={path === "/about"} as={"div"}>
-          <Link to="/about">About</Link>
-        </Navbar.Link>
-        <Navbar.Link active={path === "/projects"} as={"div"}>
-          <Link to="/projects">Projects</Link>
-        </Navbar.Link>
-        <Navbar.Link active={path === "/signup"} as={"div"}>
-          <Link to="/signup">Signup</Link>
-        </Navbar.Link>
+        <Navbar.Link href="/about">About</Navbar.Link>
+        <Navbar.Link href="/projects">Projects</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   );
