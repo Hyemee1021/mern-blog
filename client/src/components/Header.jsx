@@ -95,14 +95,14 @@ export const Header = () => {
 
         <CiMenuKebab
           size={22}
-          className="lg:hidden hover:bg-slate-200  rounded-full "
+          className="md:hidden hover:bg-slate-200  rounded-full "
           onClick={openToggle}
         />
 
         <ul
           className={`${
             open ? "block" : "hidden"
-          } w-full flex flex-col gap-3 md:hidden lg:flex md:flex-row md:w-64 md:justify-around`}
+          } w-full flex flex-col gap-3  lg:flex md:flex-row md:w-64 md:justify-around`}
         >
           <li>
             <Link to="/">Home</Link>
