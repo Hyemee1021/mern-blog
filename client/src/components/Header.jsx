@@ -21,12 +21,15 @@ export const Header = () => {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme.theme);
   const currentUser = useSelector((state) => state.user.currentUser);
+  console.log(currentUser);
 
   const [open, setOpen] = useState(true);
   console.log(open);
+
   const openToggle = () => {
     setOpen(!open);
   };
+
   return (
     <div className="shadow-md">
       <Navbar fluid rounded className="w-11/12 md:w-4/5  mx-auto ">
@@ -59,6 +62,7 @@ export const Header = () => {
             inline
             label={
               <Avatar
+                className="md:mr-3 sm:ml-3"
                 alt="User settings"
                 img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                 rounded
@@ -80,24 +84,25 @@ export const Header = () => {
         )}
 
         <Button onClick={() => dispatch(toggleTheme())}>
-          {theme === "light" ? <FaMoon size={10} /> : <FaSun size={10} />}
+          {theme === "light" ? <FaMoon size={20} /> : <FaSun size={20} />}
         </Button>
 
         {!currentUser && (
-          <Link to="/signin" className="hidden">
-            <Button> Sign in</Button>
-          </Link>
+          <Button className="md:ml-3">
+            <Link to="/signin">Sign in</Link>
+          </Button>
         )}
+
         <CiMenuKebab
           size={22}
-          className="md:hidden hover:bg-slate-200  rounded-full "
+          className="lg:hidden hover:bg-slate-200  rounded-full "
           onClick={openToggle}
         />
 
         <ul
           className={`${
             open ? "block" : "hidden"
-          } w-full flex flex-col gap-3 md:flex md:flex-row md:w-64 md:justify-around`}
+          } w-full flex flex-col gap-3 md:hidden lg:flex md:flex-row md:w-64 md:justify-around`}
         >
           <li>
             <Link to="/">Home</Link>
