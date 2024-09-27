@@ -146,7 +146,6 @@ export const DashProfile = () => {
             placeholder="name"
             className="rounded-md w-full"
             value={currentUser.username}
-            readOnly
           />
           <input
             type="email"
