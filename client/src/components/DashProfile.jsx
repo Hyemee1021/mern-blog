@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Alert, Avatar, Button, TextInput } from "flowbite-react";
+import { Alert, Avatar, Button, Modal, TextInput } from "flowbite-react";
 import { useSelector } from "react-redux";
 import { DashSidebar } from "./DashSidebar";
 import { HiUser } from "react-icons/hi";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 // firebase
 import {
@@ -33,9 +34,11 @@ export const DashProfile = () => {
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
   const [imageFileUploading, setImageFileUploading] = useState(false);
-  const [imageFileUploadSuccess, setImageFileUploadSuccess] = useState(null);
+
   const [updateUserError, setUpdateUserError] = useState(null);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
+
+  const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
   const filePickerRef = useRef();
@@ -142,6 +145,7 @@ export const DashProfile = () => {
 
   console.log(formData);
 
+  const handleDeleteUser = () => {};
   return (
     <div className=" flex flex-col md:flex-row">
       <DashSidebar className={sidebarBgClass} />
@@ -229,7 +233,12 @@ export const DashProfile = () => {
           </Button>
         </form>
         <div className="text-red-500 w-4/5 flex justify-between mx-auto mb-5">
-          <p className="hover:cursor-pointer">Delete Account</p>
+          <p
+            onClick={() => setShowModal(true)}
+            className="hover:cursor-pointer"
+          >
+            Delete Account
+          </p>
           <p className="hover:cursor-pointer">Sign out</p>
         </div>
 
@@ -244,6 +253,30 @@ export const DashProfile = () => {
             {updateUserError}
           </Alert>
         )}
+        <Modal
+          show={showModal}
+          onClose={() => setShowModal(false)}
+          popup
+          size="md"
+        >
+          <Modal.Header />
+          <Modal.Body>
+            <div className="text-center">
+              <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
+              <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
+                Are you sure you want to delete your account?
+              </h3>
+              <div className="flex justify-center gap-4">
+                <Button color="failure" onClick={handleDeleteUser}>
+                  Yes, I'm sure
+                </Button>
+                <Button color="gray" onClick={() => setShowModal(false)}>
+                  No, cancel
+                </Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
       </main>
     </div>
   );
