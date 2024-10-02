@@ -64,7 +64,10 @@ export const Header = () => {
               <Avatar
                 className="md:mr-3 sm:ml-3"
                 alt="User settings"
-                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                img={
+                  currentUser.profilePicture ||
+                  "https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                }
                 rounded
               />
             }

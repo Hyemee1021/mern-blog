@@ -63,7 +63,7 @@ export const Signin = () => {
 
           <p className="text-sm mt-5">
             {" "}
-            This is a demo project. You can sign in with "a@a.com" ,"1234" or
+            This is a demo project. You can sign in with "p@p.com" ,"1234" or
             sign up with your own.
           </p>
         </div>

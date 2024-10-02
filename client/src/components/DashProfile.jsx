@@ -184,10 +184,10 @@ export const DashProfile = () => {
                 }}
               />
             )}
-            {imageFileUrl || currentUser.profilepicture ? (
+            {imageFileUrl || currentUser.profilePicture ? (
               <img
                 alt="profile-picture"
-                src={imageFileUrl || currentUser.profilepicture}
+                src={imageFileUrl || currentUser.profilePicture}
                 className="w-full h-full object-cover "
               />
             ) : (
